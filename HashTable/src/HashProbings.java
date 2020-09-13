@@ -1,0 +1,6 @@
+
+public enum HashProbings {
+	LINEAR_PROBING,
+	QUADRATIC_PROBING,
+	DOUBLE_PROBING
+}
