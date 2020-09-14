@@ -10,9 +10,9 @@ public interface IHashtable<E> {
 	 * Insert an item on Hashtable
 	 * @param item The item to insert
 	 * @return The position of the item on Hashtable
-	 * @throws FullHashException 
+	 * @throws Exception 
 	 */
-	public int insert (Item<E> item) throws FullHashException;
+	public int insert (Item<E> item) throws Exception;
 	/**
 	 * Search an item with a given key
 	 * @param key The key to search an item with it
