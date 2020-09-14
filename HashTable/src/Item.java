@@ -1,6 +1,10 @@
 
 public class Item<E> {
 	/**
+	 * Flag to see if the item was deleted or not
+	 */
+	public boolean isDeleted;
+	/**
 	 * Read only key of item
 	 */
 	private int key;
@@ -21,5 +25,6 @@ public class Item<E> {
 	public Item(int key, E value) {
 		this.key = key;
 		this.value = value;
+		this.isDeleted = false;
 	}
 }

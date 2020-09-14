@@ -1,14 +1,19 @@
 
 public class Main {
 
+	/**
+	 * Defini que o valor máximo das keys seria 20 para meus testes de geração de Hashs randômicas, mas qualquer coisa só mudar na constante
+	 */
 	static final int MaxKeyValue = 20;
 	
 	public static void main(String[] args) throws Exception {
+		//Como se declara normalmente. Embora fiz funções que retornam já Hashs, deixei as declarações aqui pra expô-las
 		HashtableOpenAdressing<Character> hashLinear = new HashtableOpenAdressing<Character>(11, HashProbings.LINEAR_PROBING);
 		HashtableOpenAdressing<Character> hashQuadratic = new HashtableOpenAdressing<Character>(11, HashProbings.QUADRATIC_PROBING);
 		HashtableOpenAdressing<Character> hashDouble = new HashtableOpenAdressing<Character>(11, 7);
 		
-		System.out.println("Gerando 3 Hashs aleatórias para ver primeiro:\n");
+		//Primeira bateria de testes
+		/*System.out.println("Gerando 3 Hashs aleatórias para ver primeiro:\n");
 		System.out.println("Hash Linear");
 		hashLinear = OpenAdressingUtilities.randomOpenHashGenerate(hashLinear.length(), hashLinear.getProbing(), MaxKeyValue);
 		hashLinear.print();
@@ -25,7 +30,7 @@ public class Main {
 		System.out.println("Hash Dupla");
 		hashDouble = OpenAdressingUtilities.randomOpenHashGenerate(hashDouble.length(), hashDouble.getDoubleHashProbingFactor(), MaxKeyValue);
 		hashDouble.print();
-		
+		*/
 		System.out.println("\nAgora recriando as 3 hashs com os valores pedidos pela professora:\n");
 		OpenAdressingUtilities.teachersHashCreation(hashLinear);
 		OpenAdressingUtilities.teachersHashCreation(hashQuadratic);
@@ -74,8 +79,21 @@ public class Main {
 		System.out.println("Removendo o elemento da chave 205: " + hashLinear.delete(205).getValue());
 		System.out.println("Removendo o elemento da chave 36: " + hashLinear.delete(36).getValue());
 		System.out.println("Removendo o elemento que nem tem da chave 16: " + hashLinear.delete(16));
-		System.out.println("Inserindo agora o elemento da chave 16: " + hashLinear.insert(new Item<Character>(16, 'X')));
+		System.out.println("Inserindo agora o elemento da chave 16 na posição " + hashLinear.insert(new Item<Character>(16, 'X')));
 		System.out.println("Vamo printar de novo:\n");
 		hashLinear.print();
+		
+		// Mais randoms testes pra ti sora
+		/*
+		hashDouble.clear();
+		hashDouble.insert(new Item<Character>(7,'a'));
+		hashDouble.insert(new Item<Character>(18,'X'));
+		hashDouble.insert(new Item<Character>(29,'X'));
+		hashDouble.insert(new Item<Character>(40,'X'));
+		hashDouble.delete(7);
+		hashDouble.delete(40);
+		System.out.println(hashDouble.searchItemByKey(29).getKey());
+		*/
+		
 	}
 }

@@ -63,7 +63,7 @@ public class HashtableOpenAdressing<E> implements IHashtable<E>{
 			return null;
 		
 		Item<E> deletedItem = itensArray[arrayIndex];
-		itensArray[arrayIndex] = null;
+		itensArray[arrayIndex].isDeleted = true;
 		this.numElements--;
 		
 		return deletedItem;
@@ -79,6 +79,9 @@ public class HashtableOpenAdressing<E> implements IHashtable<E>{
 		if(probing == HashProbings.LINEAR_PROBING) {
 			
 			while(itensArray[modularPosition] != null) {
+				if(itensArray[modularPosition].isDeleted)
+					break;
+				
 				if(item.getKey() == itensArray[modularPosition].getKey())
 					throw new DuplicatedKeyException();
 				
@@ -91,6 +94,9 @@ public class HashtableOpenAdressing<E> implements IHashtable<E>{
 			int startPosition = modularPosition;
 			
 			while(itensArray[modularPosition] != null) {
+				if(itensArray[modularPosition].isDeleted)
+					break;
+				
 				if(item.getKey() == itensArray[modularPosition].getKey())
 					throw new DuplicatedKeyException();
 				
@@ -105,6 +111,9 @@ public class HashtableOpenAdressing<E> implements IHashtable<E>{
 			int secondaryFunction = doubleHashProbingFactor - (item.getKey() % doubleHashProbingFactor);
 			
 			while(itensArray[modularPosition] != null) {
+				if(itensArray[modularPosition].isDeleted)
+					break;
+				
 				if(item.getKey() == itensArray[modularPosition].getKey())
 					throw new DuplicatedKeyException();
 				
@@ -129,7 +138,7 @@ public class HashtableOpenAdressing<E> implements IHashtable<E>{
 		if(probing == HashProbings.LINEAR_PROBING) {
 			int count = 1, maxCollisionTimes = length() - 1;
 			
-			while(itensArray[modularPosition].getKey() != key) {
+			while(itensArray[modularPosition].getKey() != key || itensArray[modularPosition].isDeleted) {
 				if(count == maxCollisionTimes)
 					return null;
 				
@@ -146,7 +155,7 @@ public class HashtableOpenAdressing<E> implements IHashtable<E>{
 			int collisionTimes = 0, maxCollisionTimes = length() - 1;
 			int startPosition = modularPosition;
 			
-			while(itensArray[modularPosition].getKey() != key) {
+			while(itensArray[modularPosition].getKey() != key || itensArray[modularPosition].isDeleted) {
 				if(collisionTimes == maxCollisionTimes)
 					return null;
 							
@@ -164,7 +173,7 @@ public class HashtableOpenAdressing<E> implements IHashtable<E>{
 			int startPosition = modularPosition;
 			int secondaryFunction = doubleHashProbingFactor - (key % doubleHashProbingFactor);
 			
-			while(itensArray[modularPosition].getKey() != key) {
+			while(itensArray[modularPosition].getKey() != key || itensArray[modularPosition].isDeleted) {
 				if(collisionTimes == maxCollisionTimes)
 					return null;
 				
@@ -190,7 +199,7 @@ public class HashtableOpenAdressing<E> implements IHashtable<E>{
 		if(probing == HashProbings.LINEAR_PROBING) {
 			int count = 1, maxCollisionTimes = length() - 1;
 			
-			while(itensArray[modularPosition].getKey() != key) {
+			while(itensArray[modularPosition].getKey() != key || itensArray[modularPosition].isDeleted) {
 				if(count == maxCollisionTimes)
 					return -1;
 				
@@ -207,7 +216,7 @@ public class HashtableOpenAdressing<E> implements IHashtable<E>{
 			int collisionTimes = 0, maxCollisionTimes = length() - 1;
 			int startPosition = modularPosition;
 			
-			while(itensArray[modularPosition].getKey() != key) {
+			while(itensArray[modularPosition].getKey() != key || itensArray[modularPosition].isDeleted) {
 				if(collisionTimes == maxCollisionTimes)
 					return -1;
 							
@@ -225,7 +234,7 @@ public class HashtableOpenAdressing<E> implements IHashtable<E>{
 			int startPosition = modularPosition;
 			int secondaryFunction = doubleHashProbingFactor - (key % doubleHashProbingFactor);
 			
-			while(itensArray[modularPosition].getKey() != key) {
+			while(itensArray[modularPosition].getKey() != key || itensArray[modularPosition].isDeleted) {
 				if(collisionTimes == maxCollisionTimes)
 					return -1;
 				
@@ -247,9 +256,12 @@ public class HashtableOpenAdressing<E> implements IHashtable<E>{
 		
 		System.out.println("{");
 		for(Item<E> item : itensArray) {
-			if(item != null)
-				System.out.println("Key: " + item.getKey() + " | Value: " + item.getValue()
-				+ " | Array index: " + i);
+			if(item != null) {
+				if(!item.isDeleted) {
+					System.out.println("Key: " + item.getKey() + " | Value: " + item.getValue()
+					+ " | Array index: " + i);
+				}
+			}
 			i++;
 		}
 		System.out.println("}");
