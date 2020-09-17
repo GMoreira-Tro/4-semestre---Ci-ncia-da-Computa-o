@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Main {
 
@@ -15,8 +16,9 @@ public class Main {
 		HashtableSepareteChaining<Character> hashChain = new HashtableSepareteChaining<Character>(11);
 		
 		//openHashsTests(hashLinear, hashQuadratic, hashDouble);
-		separetedHashsTests(hashChain);
-		everythingTeacherWants(hashLinear, hashQuadratic, hashDouble, hashChain);
+		//separetedHashsTests(hashChain);
+		//everythingTeacherWants(hashLinear, hashQuadratic, hashDouble, hashChain);
+		findDuplicateNumber(8,new HashtableSepareteChaining<Integer>(8));
 	}
 	
 	public static void openHashsTests(HashtableOpenAdressing<Character> hashLinear, HashtableOpenAdressing<Character> hashQuadratic, 
@@ -137,5 +139,60 @@ public class Main {
 			HashtableOpenAdressing<E> hashQuadratic, HashtableOpenAdressing<E> hashDouble, HashtableSepareteChaining<E> hashChain) 
 	throws Exception{
 		
+	}
+	
+	public static void findDuplicateNumber(int n, IHashtable<Integer> hash) throws Exception {
+		System.out.println("Dado um array contendo um n+1 inteiros, onde cada inteiro está entre 1(inclusive) e n (inclusive),"
+				+ " teremos um número duplicado no array. Assumindo que há apenas um número duplicado, mas que pode estar duplicado"
+				+ " mais de uma vez, ache-o.");
+		
+		//Gerando o array randomicamente
+		int array[] = new int[n+1];
+		ArrayList<Integer> valuesList = new ArrayList<Integer>();
+		for(int i = 0; i < n + 2; i++) {
+			valuesList.add(i);
+		}
+		int randomPosition, randomPositionValue;
+		
+		for(int i = 0; i < array.length; i++) {
+			randomPosition = (int)(Math.random()*valuesList.size());
+			randomPositionValue = valuesList.get(randomPosition);
+			array[i] = randomPositionValue;
+			valuesList.remove(randomPosition);
+		}
+		
+		int randomTimesToDuplicateNumber = (int)(Math.random()*(array.length-1) + 1);
+		int numberToDuplicatePosition =  (int)(Math.random()*array.length), numberToDuplicate = array[numberToDuplicatePosition];
+		
+		for(int i = 0; i < randomTimesToDuplicateNumber; i++) {
+			randomPosition = (int)(Math.random()*array.length);
+			if(randomPosition == numberToDuplicatePosition) {
+				if(randomPosition == array.length-1) {
+					randomPosition = 0;
+				}
+				else
+					randomPosition++;
+			}
+			array[randomPosition] = numberToDuplicate;
+		}
+		
+		//Mostrando o array
+		System.out.println("\nArray\n");
+		System.out.print("[");
+		for(int value : array) {
+			System.out.print(value + ",");
+		}
+		System.out.println("]");
+		
+		//Lógica com a HashTable
+		for (int i = 0; i < array.length; i++) {
+			try {
+				hash.insert(new Item<Integer>(array[i], i));
+			}
+			catch(DuplicatedKeyException e) {
+				System.out.println("O número duplicado é: " + array[i]);
+				break;
+			}
+		}
 	}
 }
